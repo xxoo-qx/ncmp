@@ -5,16 +5,26 @@ A script repository for implementing music partner features of NetEase Cloud Mus
 
 - 自动完成每日基础评分任务
 - 自动完成额外评分任务
-- 支持邮件通知功能
 - 支持 GitHub Actions 自动运行
-- Cookie 失效自动提醒
+- 支持 Cookie 失效时自动发送邮件提醒
 
 ## 使用方法
 
-### 1. 配置文件设置
+### 方式一：本地手动执行
 
-在项目根目录创建 `setting.json` 文件，填入以下配置：
+1. 克隆仓库到本地：
+```bash
+git clone https://github.com/ACAne0320/ncmp.git
+cd ncmp
+```
 
+2. 安装依赖：
+```bash
+pip install -r requirements.txt
+```
+
+3. 配置文件设置：
+进入项目根目录的 `setting.json` 文件，修改以下配置：
 ```json
 {
   "Cookie_MUSIC_U": "YOUR_MUSIC_U_COOKIE_HERE",
@@ -26,32 +36,28 @@ A script repository for implementing music partner features of NetEase Cloud Mus
 }
 ```
 
-### 2. 环境要求
-
-- Python 3.x
-- 安装依赖：
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. 运行方式
-
-#### 本地运行
-
+4. 运行脚本：
 ```bash
 python main.py
 ```
 
-#### GitHub Actions 自动运行
-1. Fork 本仓库
-2. 在仓库的 Settings -> Secrets 中添加以下配置：
-   - `MUSIC_U`: 网易云音乐 MUSIC_U Cookie
-   - `CSRF`: 网易云音乐 CSRF Token
-   - `NOTIFY_EMAIL`: 通知邮箱（可选）
-   - `EMAIL_PASSWORD`: 邮箱密码（可选）
-   - `SMTP_SERVER`: SMTP 服务器（可选）
-   - `SMTP_PORT`: SMTP 端口（可选）
+### 方式二：GitHub Actions 自动执行
+
+1. Fork 本仓库到你的 GitHub 账号
+
+2. 配置 GitHub Secrets：
+   在你 fork 的仓库中，进入 Settings -> Secrets and variables -> Actions，添加以下配置：
+   - `MUSIC_U`：网易云音乐 MUSIC_U Cookie
+   - `CSRF`：网易云音乐 CSRF Token
+   - `NOTIFY_EMAIL`：通知邮箱（可选）
+   - `EMAIL_PASSWORD`：邮箱密码（可选）
+   - `SMTP_SERVER`：SMTP 服务器（可选）
+   - `SMTP_PORT`：SMTP 端口（可选）
+
+3. 启用 GitHub Actions：
+   - 进入仓库的 Actions 页面
+   - 点击 "I understand my workflows, go ahead and enable them"
+   - Actions 将会按照预设时间自动运行（默认北京时间9点）
 
 ## 注意事项
 
