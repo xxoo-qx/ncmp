@@ -1,12 +1,18 @@
 # ncmp
-A script repository for implementing music partner features of NetEase Cloud Music (网易云音乐).
+
+一个基于 Python 的网易云音乐-音乐合伙人任务脚本，支持本地运行和 GitHub Actions 自动执行。
 
 ## 功能特点
 
-- 自动完成每日基础评分任务
-- 自动完成额外评分任务
-- 支持 GitHub Actions 自动运行
-- 支持 Cookie 失效时自动发送邮件提醒
+- 全自动完成音乐合伙人日常任务
+  - 完成每日基础任务
+  - 完成每日额外评分任务
+- 便捷的部署方式
+  - 支持本地手动运行
+  - 支持 GitHub Actions 自动执行
+- 完善的通知机制
+  - Cookie 失效自动发送邮件提醒
+  - 支持自定义 SMTP 服务器
 
 ## 使用方法
 
