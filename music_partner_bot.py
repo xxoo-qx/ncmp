@@ -37,10 +37,9 @@ class MusicPartnerBot:
             self.logger.info(f"开始验证用户信息...")
             response = self.session.get(url=self.api["user_info"])
             
-            # 打印响应状态码和响应内容
+            # 打印响应状态码
             self.logger.info(f"API响应状态码: {response.status_code}")
             response_json = response.json()
-            self.logger.info(f"API响应内容: {response_json}")
             
             profile = response_json.get("profile")
             if profile:

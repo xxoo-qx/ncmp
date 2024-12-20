@@ -25,7 +25,6 @@ class CookieValidator:
             # 检查用户信息
             user_response = self.session.get(self.check_urls["user_info"],
                                              headers=headers).json()
-            self.logger.info(f"User info response: {user_response}")
             # 检查账号是否有效
             if user_response.get("code") != 200 or not user_response.get("profile"):
                 return False, "Cookie已失效或账号信息不完整"
