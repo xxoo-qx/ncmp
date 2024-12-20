@@ -14,6 +14,22 @@
   - Cookie 失效自动发送邮件提醒
   - 支持自定义 SMTP 服务器
 
+## 使用前准备
+
+### 获取网易云音乐 Cookie
+
+1. 登录[网易云音乐网页版](https://music.163.com/)
+2. 打开浏览器开发者工具（F12）
+3. 切换到 Network（网络）选项卡
+4. 刷新页面，在请求中找到 cookie 中的 `MUSIC_U` 和 `__csrf` 值
+
+### 配置邮箱（可选）
+
+如需开启邮件通知功能，需要：
+1. 使用邮箱开启 SMTP 服务
+2. 获取邮箱授权码（不是邮箱密码）
+3. 记录 SMTP 服务器地址和端口
+
 ## 使用方法
 
 ### 方式一：本地手动执行
@@ -70,3 +86,14 @@ python main.py
 - 请勿滥用本脚本
 - 使用本脚本产生的任何后果由使用者自行承担
 - 建议使用 GitHub Actions 的定时任务功能，避免遗漏每日任务
+
+## 声明
+
+- 本项目仅供学习交流使用
+- 不得用于商业用途
+- 使用本脚本产生的一切后果由使用者自行承担
+
+## 致谢
+
+- [qinglong-sign](https://github.com/KotoriMinami/qinglong-sign)
+- [CloudMusicBot](https://github.com/C20C01/CloudMusicBot)
