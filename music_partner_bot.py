@@ -1,20 +1,13 @@
-import base64
-import codecs
-import random
-import re
-import string
-from typing import Tuple, Dict, Any
+from typing import Tuple, Dict
 
-import requests
-from Crypto.Cipher import AES
 from signer import Signer
 from extra_task import ExtraTask
 
 class MusicPartnerBot:
-    def __init__(self, config, logger):
+    def __init__(self, config, logger, session):
         self.config = config
         self.logger = logger
-        self.session = requests.session()
+        self.session = session
         self.api = {
             "user_info": "https://music.163.com/api/nuser/account/get",
             "task_data": "https://interface.music.163.com/api/music/partner/daily/task/get"
@@ -22,7 +15,6 @@ class MusicPartnerBot:
 
     def run(self) -> bool:
         try:
-            self._init_session()
             self._verify_user()
             
             # 处理基础评分任务
@@ -38,24 +30,6 @@ class MusicPartnerBot:
         except Exception as e:
             self.logger.error(f"执行失败: {str(e)}")
             return False
-
-    def _init_session(self) -> None:
-        """初始化会话和Cookie"""
-        required_cookies = ["MUSIC_U", "__csrf"]
-        for cookie in required_cookies:
-            value = self.config.get(f"Cookie_{cookie}")
-            if not value:
-                raise ValueError(f"缺少必要的Cookie: {cookie}")
-            
-            # 打印Cookie值的长度，用于调试（注意不要打印实际的Cookie值）
-            self.logger.info(f"设置 {cookie} Cookie, 长度: {len(value)}")
-            self.session.cookies.set(cookie.replace("_", "__") if cookie == "csrf" else cookie, value)
-        
-        # 验证Cookie是否正确设置
-        for cookie in required_cookies:
-            cookie_name = cookie.replace("_", "__") if cookie == "csrf" else cookie
-            if cookie_name not in self.session.cookies:
-                raise ValueError(f"Cookie {cookie_name} 设置失败")
 
     def _verify_user(self) -> None:
         """验证用户信息"""
@@ -104,5 +78,3 @@ class MusicPartnerBot:
                 self.logger.info(f'{work["name"]}「{work["authorName"]}」已有评分：{int(task["score"])}分')
             else:
                 signer.sign(work)
-
-    # ... 其他方法保持不变 ... 
