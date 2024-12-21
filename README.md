@@ -81,7 +81,7 @@ python main.py
 3. 启用 GitHub Actions：
    - 进入仓库的 Actions 页面
    - 点击 "I understand my workflows, go ahead and enable them"
-   - Actions 将会按照预设时间自动运行（默认北京时间9点）
+   - Actions 将会按照预设时间自动运行（默认北京时间1点）
 
 ## 注意事项
 
