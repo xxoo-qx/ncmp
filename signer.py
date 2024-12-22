@@ -63,7 +63,7 @@ class Signer:
     def sign(self, work: dict, is_extra: bool = False) -> None:
         """为作品评分"""
         try:
-            delay = random.uniform(5, 8)
+            delay = random.uniform(16, 18)
             self.logger.info(f"等待 {delay:.1f} 秒后继续...")
             time.sleep(delay)
 
@@ -100,7 +100,7 @@ class Signer:
             else:
                 error_msg = response.get('msg', '未知错误')
                 if "频繁" in error_msg:
-                    retry_delay = random.uniform(5, 8)
+                    retry_delay = random.uniform(16, 18)
                     self.logger.info(f"遇到频率限制，等待 {retry_delay:.1f} 秒后重试...")
                     time.sleep(retry_delay)
                     self.sign(work, is_extra)

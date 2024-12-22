@@ -27,7 +27,7 @@ class ExtraTask:
             for task in extra_tasks:
                 self._process_single_task(task, task_id)
                 # 添加随机等待时间
-                delay = random.uniform(5, 8)
+                delay = random.uniform(16, 18)
                 self.logger.info(f"等待 {delay:.1f} 秒后继续...")
                 time.sleep(delay)
 
