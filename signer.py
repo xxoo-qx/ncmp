@@ -63,8 +63,7 @@ class Signer:
     def sign(self, work: dict, is_extra: bool = False) -> None:
         """为作品评分"""
         try:
-            # 添加随机延时，避免操作太频繁
-            delay = random.uniform(2, 4)
+            delay = random.uniform(5, 8)
             self.logger.info(f"等待 {delay:.1f} 秒后继续...")
             time.sleep(delay)
 
