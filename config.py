@@ -21,6 +21,8 @@ class Config:
     
     def _load_from_env(self) -> Dict:
         """从环境变量加载配置"""
+        wait_time_min = os.getenv("WAIT_TIME_MIN", "15")
+        wait_time_max = os.getenv("WAIT_TIME_MAX", "20")
         return {
             "Cookie_MUSIC_U": os.getenv("MUSIC_U"),
             "Cookie___csrf": os.getenv("CSRF"),
@@ -29,8 +31,8 @@ class Config:
             "smtp_server": os.getenv("SMTP_SERVER"),
             "smtp_port": os.getenv("SMTP_PORT"),
             # 添加等待时间配置
-            "wait_time_min": float(os.getenv("WAIT_TIME_MIN", "15")),  # 最小等待时间
-            "wait_time_max": float(os.getenv("WAIT_TIME_MAX", "20")),  # 最大等待时间
+            "wait_time_min": float(self.config_data.get("wait_time_min", 15) if wait_time_min == '' else wait_time_min),  # 最小等待时间
+            "wait_time_max": float(self.config_data.get("wait_time_max", 20) if wait_time_max == '' else wait_time_max)  # 最大等待时间
         }
     
     def _load_from_file(self) -> Dict:
