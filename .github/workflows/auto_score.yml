@@ -30,4 +30,6 @@ jobs:
         EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
         SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
         SMTP_PORT: ${{ secrets.SMTP_PORT }}
+        WAIT_TIME_MIN: ${{ secrets.WAIT_TIME_MIN }}
+        WAIT_TIME_MAX: ${{ secrets.WAIT_TIME_MAX }}
       run: python main.py 
