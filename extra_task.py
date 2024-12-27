@@ -69,8 +69,8 @@ class ExtraTask:
             self._report_listen(work)
             
             # 2. 评分
-            from signer import Signer  # 复用现有的Signer类
-            signer = Signer(self.session, task_id, self.logger)
+            from signer import Signer
+            signer = Signer(self.session, task_id, self.logger, self.config)
             signer.sign(work, is_extra=True)
 
         except Exception as e:
