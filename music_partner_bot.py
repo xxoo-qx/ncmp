@@ -23,7 +23,7 @@ class MusicPartnerBot:
                 self._process_tasks(task_data)
             
             # 处理额外评分任务
-            extra_task = ExtraTask(self.session, self.logger)
+            extra_task = ExtraTask(self.session, self.logger, self.config)
             extra_task.process_extra_tasks(task_data["id"])
             
             return True
@@ -69,7 +69,7 @@ class MusicPartnerBot:
     def _process_tasks(self, task_data: Dict) -> None:
         """处理未完成的任务"""
         self.logger.info("开始评分...")
-        signer = Signer(self.session, task_data["id"], self.logger)
+        signer = Signer(self.session, task_data["id"], self.logger, self.config)
         
         for task in task_data.get("works", []):
             work = task["work"]

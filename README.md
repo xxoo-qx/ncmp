@@ -56,7 +56,9 @@ pip install -r requirements.txt
   "notify_email": "example@email.com",
   "email_password": "your_email_password",
   "smtp_server": "smtp.email.com",
-  "smtp_port": 465
+  "smtp_port": 465,
+  "wait_time_min": 15,
+  "wait_time_max": 20
 }
 ```
 
@@ -77,6 +79,8 @@ python main.py
    - `EMAIL_PASSWORD`：邮箱密码（可选）
    - `SMTP_SERVER`：SMTP 服务器（可选）
    - `SMTP_PORT`：SMTP 端口（可选）
+   - `WAIT_TIME_MIN`：最小等待时间（可选，默认15）
+   - `WAIT_TIME_MAX`：最大等待时间（可选，默认20）
 
 3. 启用 GitHub Actions：
    - 进入仓库的 Actions 页面
@@ -85,9 +89,9 @@ python main.py
 
 ## 注意事项
 
-- 请勿滥用本脚本
-- 使用本脚本产生的任何后果由使用者自行承担
-- 建议使用 GitHub Actions 的定时任务功能，避免遗漏每日任务
+- 任务提交默认添加了 15-20 秒的等待时间，避免被检测异常。
+- 建议使用 GitHub Actions 的定时任务功能，避免遗漏每日任务。
+- 网易云音乐的 Cookie 两周左右就会过期，建议配置邮箱参数以便 Cookie 过期时自动发送邮件通知。
 
 ## 声明
 

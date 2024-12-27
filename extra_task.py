@@ -4,16 +4,17 @@ import json
 from typing import Dict, List, Tuple
 
 class ExtraTask:
-    def __init__(self, session, logger):
+    def __init__(self, session, logger, config):
         self.session = session
         self.logger = logger
+        self.config = config
         self.api = {
             "extra_list": "https://interface.music.163.com/api/music/partner/extra/wait/evaluate/work/list",
             "report_listen": "https://interface.music.163.com/weapi/partner/resource/interact/report"
         }
         # 从 Signer 类复用加密方法
         from signer import Signer
-        self.signer = Signer(session, "", logger)  # task_id 为空字符串，因为上报听歌不需要
+        self.signer = Signer(session, "", logger, config)  # task_id 为空字符串，因为上报听歌不需要
 
     def process_extra_tasks(self, task_id: str) -> None:
         """处理额外的评分任务"""
@@ -27,7 +28,7 @@ class ExtraTask:
             for task in extra_tasks:
                 self._process_single_task(task, task_id)
                 # 添加随机等待时间
-                delay = random.uniform(16, 18)
+                delay = self.config.get_wait_time()
                 self.logger.info(f"等待 {delay:.1f} 秒后继续...")
                 time.sleep(delay)
 
@@ -109,4 +110,4 @@ class ExtraTask:
 
         except Exception as e:
             self.logger.error(f"上报听歌记录失败: {str(e)}")
-            raise 
+            raise

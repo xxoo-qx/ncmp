@@ -10,10 +10,11 @@ from Crypto.Cipher import AES
 import time
 
 class Signer:
-    def __init__(self, session: requests.Session, task_id: str, logger):
+    def __init__(self, session: requests.Session, task_id: str, logger, config):
         self.session = session
         self.task_id = task_id
         self.logger = logger
+        self.config = config
         self.sign_url = "https://interface.music.163.com/weapi/music/partner/work/evaluate"
         
         # 加密相关常量
@@ -63,7 +64,8 @@ class Signer:
     def sign(self, work: dict, is_extra: bool = False) -> None:
         """为作品评分"""
         try:
-            delay = random.uniform(16, 18)
+            # 使用配置的等待时间
+            delay = self.config.get_wait_time()
             self.logger.info(f"等待 {delay:.1f} 秒后继续...")
             time.sleep(delay)
 
@@ -100,7 +102,7 @@ class Signer:
             else:
                 error_msg = response.get('msg', '未知错误')
                 if "频繁" in error_msg:
-                    retry_delay = random.uniform(16, 18)
+                    retry_delay = self.config.get_wait_time()
                     self.logger.info(f"遇到频率限制，等待 {retry_delay:.1f} 秒后重试...")
                     time.sleep(retry_delay)
                     self.sign(work, is_extra)

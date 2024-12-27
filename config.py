@@ -1,5 +1,6 @@
 import json
 import os
+import random
 from typing import Dict
 
 class Config:
@@ -26,7 +27,10 @@ class Config:
             "notify_email": os.getenv("NOTIFY_EMAIL"),
             "email_password": os.getenv("EMAIL_PASSWORD"),
             "smtp_server": os.getenv("SMTP_SERVER"),
-            "smtp_port": os.getenv("SMTP_PORT")
+            "smtp_port": os.getenv("SMTP_PORT"),
+            # 添加等待时间配置
+            "wait_time_min": float(os.getenv("WAIT_TIME_MIN", "15")),  # 最小等待时间
+            "wait_time_max": float(os.getenv("WAIT_TIME_MAX", "20")),  # 最大等待时间
         }
     
     def _load_from_file(self) -> Dict:
@@ -45,6 +49,10 @@ class Config:
                 if not config.get(key):
                     raise ValueError(f"配置文件中缺少必要的配置项: {key}")
                     
+            # 添加默认等待时间配置
+            config.setdefault("wait_time_min", 15)
+            config.setdefault("wait_time_max", 20)
+            
             return config
         except Exception as e:
             raise RuntimeError(f"配置加载失败: {str(e)}")
@@ -54,3 +62,10 @@ class Config:
         if not value:
             raise ValueError(f"无法获取配置项: {key}")
         return value
+
+    def get_wait_time(self) -> float:
+        """获取随机等待时间"""
+        min_time = float(self.config_data.get("wait_time_min", 15))
+        max_time = float(self.config_data.get("wait_time_max", 20))
+        return random.uniform(min_time, max_time)
+
