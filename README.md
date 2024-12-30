@@ -14,7 +14,6 @@ ncmp(NetEase Cloud Music Partner 网易云音乐合伙人)
   - 支持 GitHub Actions 自动执行
 - 完善的通知机制
   - Cookie 失效自动发送邮件提醒
-  - 支持自定义 SMTP 服务器
 
 ## 使用前准备
 
@@ -25,12 +24,32 @@ ncmp(NetEase Cloud Music Partner 网易云音乐合伙人)
 3. 切换到 Network（网络）选项卡
 4. 刷新页面，在请求中找到 cookie 中的 `MUSIC_U` 和 `__csrf` 值
 
-### 配置邮箱（可选）
+### 配置邮箱通知（可选）
 
-如需开启邮件通知功能，需要：
-1. 使用邮箱开启 SMTP 服务
-2. 获取邮箱授权码（不是邮箱密码）
-3. 记录 SMTP 服务器地址和端口
+支持所有提供 SMTP 服务的邮箱，以下是常见邮箱的配置示例：
+
+1. Gmail (推荐)
+   ```json
+   {
+     "notify_email": "your.email@gmail.com",
+     "email_password": "YOUR_APP_SPECIFIC_PASSWORD",
+     "smtp_server": "smtp.gmail.com",
+     "smtp_port": 465
+   }
+   ```
+   注意：Gmail 需要开启两步验证并使用应用专用密码
+
+2. QQ邮箱
+   ```json
+   {
+     "notify_email": "your_qq@qq.com",
+     "email_password": "YOUR_AUTH_CODE",
+     "smtp_server": "smtp.qq.com",
+     "smtp_port": 465
+   }
+   ```
+   注意：需要在QQ邮箱设置中开启SMTP服务并获取授权码
+
 
 ## 使用方法
 
@@ -47,22 +66,31 @@ cd ncmp
 pip install -r requirements.txt
 ```
 
-3. 配置文件设置：
-进入项目根目录的 `setting.json` 文件，修改以下配置：
+3. 复制并编辑配置文件：
+```bash
+cp config/setting.example.json config/setting.json
+```
+
+4. 编辑 `config/setting.json`，填写以下配置：
 ```json
 {
-  "Cookie_MUSIC_U": "YOUR_MUSIC_U_COOKIE_HERE",
-  "Cookie___csrf": "YOUR_CSRF_TOKEN_HERE",
-  "notify_email": "example@email.com",
-  "email_password": "your_email_password",
-  "smtp_server": "smtp.email.com",
+  "Cookie_MUSIC_U": "YOUR_MUSIC_U_COOKIE",
+  "Cookie___csrf": "YOUR_CSRF_TOKEN",
+  "notify_email": "your.email@gmail.com",
+  "email_password": "YOUR_APP_SPECIFIC_PASSWORD",
+  "smtp_server": "smtp.gmail.com",
   "smtp_port": 465,
   "wait_time_min": 15,
   "wait_time_max": 20
 }
 ```
 
-4. 运行脚本：
+5. 运行测试脚本确认配置正确：
+```bash
+python tests/test_run.py
+```
+
+6. 运行主程序：
 ```bash
 python main.py
 ```
@@ -75,10 +103,10 @@ python main.py
    在你 fork 的仓库中，进入 Settings -> Secrets and variables -> Actions，添加以下配置：
    - `MUSIC_U`：网易云音乐 MUSIC_U Cookie
    - `CSRF`：网易云音乐 CSRF Token
-   - `NOTIFY_EMAIL`：通知邮箱（可选）
+   - `NOTIFY_EMAIL`：邮箱地址（可选）
    - `EMAIL_PASSWORD`：邮箱密码（可选）
-   - `SMTP_SERVER`：SMTP 服务器（可选）
-   - `SMTP_PORT`：SMTP 端口（可选）
+   - `SMTP_SERVER`：smtp.gmail.com（可选）
+   - `SMTP_PORT`：465（可选）
    - `WAIT_TIME_MIN`：最小等待时间（可选，默认15）
    - `WAIT_TIME_MAX`：最大等待时间（可选，默认20）
 
@@ -89,9 +117,11 @@ python main.py
 
 ## 注意事项
 
-- 任务提交默认添加了 15-20 秒的等待时间，避免被检测异常。
-- 建议使用 GitHub Actions 的定时任务功能，避免遗漏每日任务。
-- 网易云音乐的 Cookie 两周左右就会过期，建议配置邮箱参数以便 Cookie 过期时自动发送邮件通知。
+- 目前仅对 Gmail/QQ邮箱 进行了验证，其他邮箱可能需要自行测试
+- 邮箱密码为授权码，而非邮箱登录密码
+- 任务提交默认添加了 15-20 秒的等待时间，避免被检测异常
+- 建议使用 GitHub Actions 的定时任务功能，避免遗漏每日任务
+- 网易云音乐的 Cookie 两周左右就会过期，建议配置邮箱以便及时收到失效通知
 
 ## 声明
 

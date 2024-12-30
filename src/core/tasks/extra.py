@@ -3,6 +3,9 @@ import time
 import json
 from typing import Dict, List, Tuple
 
+from src.core.signer import Signer
+
+
 class ExtraTask:
     def __init__(self, session, logger, config):
         self.session = session
@@ -12,8 +15,6 @@ class ExtraTask:
             "extra_list": "https://interface.music.163.com/api/music/partner/extra/wait/evaluate/work/list",
             "report_listen": "https://interface.music.163.com/weapi/partner/resource/interact/report"
         }
-        # 从 Signer 类复用加密方法
-        from signer import Signer
         self.signer = Signer(session, "", logger, config)  # task_id 为空字符串，因为上报听歌不需要
 
     def process_extra_tasks(self, task_id: str) -> None:
@@ -69,7 +70,6 @@ class ExtraTask:
             self._report_listen(work)
             
             # 2. 评分
-            from signer import Signer
             signer = Signer(self.session, task_id, self.logger, self.config)
             signer.sign(work, is_extra=True)
 

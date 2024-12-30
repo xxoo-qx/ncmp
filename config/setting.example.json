@@ -1,0 +1,10 @@
+{
+  "Cookie_MUSIC_U": "",
+  "Cookie___csrf": "",
+  "notify_email": "",
+  "email_password": "",
+  "smtp_server": "smtp.gmail.com",
+  "smtp_port": 465,
+  "wait_time_min": 15,
+  "wait_time_max": 20
+} 

@@ -4,13 +4,15 @@ import random
 import re
 import string
 import json
+import time
 from typing import Tuple
 import requests
 from Crypto.Cipher import AES
-import time
+from ..utils.logger import Logger
+from ..utils.config import Config
 
 class Signer:
-    def __init__(self, session: requests.Session, task_id: str, logger, config):
+    def __init__(self, session: requests.Session, task_id: str, logger: Logger, config: Config):
         self.session = session
         self.task_id = task_id
         self.logger = logger
@@ -111,4 +113,4 @@ class Signer:
                 
         except Exception as e:
             self.logger.error(f'歌曲「{work["name"]}」评分异常：{str(e)}')
-            raise RuntimeError(f"评分过程出错: {str(e)}")
+            raise RuntimeError(f"评分过程出错: {str(e)}") 

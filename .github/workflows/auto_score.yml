@@ -2,8 +2,8 @@ name: Auto Score
 
 on:
   schedule:
-    - cron: '0 17 * * *'  # 每天UTC 17点运行（北京时间1点）
-  workflow_dispatch:      # 支持手动触发
+    - cron: '0 17 * * *'  # UTC 17:00 (北京时间1:00)
+  workflow_dispatch:
 
 jobs:
   score:
