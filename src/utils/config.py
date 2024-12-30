@@ -24,8 +24,8 @@ class Config:
             "email_password": os.getenv("EMAIL_PASSWORD"),
             "smtp_server": os.getenv("SMTP_SERVER", "smtp.gmail.com"),
             "smtp_port": int(os.getenv("SMTP_PORT", "465")),
-            "wait_time_min": float(os.getenv("WAIT_TIME_MIN", "15")),
-            "wait_time_max": float(os.getenv("WAIT_TIME_MAX", "20"))
+            "wait_time_min": float(os.getenv("WAIT_TIME_MIN" or "15")),
+            "wait_time_max": float(os.getenv("WAIT_TIME_MAX" or "20"))
         }
     
     def _load_from_file(self) -> Dict:
