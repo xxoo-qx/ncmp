@@ -22,11 +22,12 @@ class MusicPartnerBot:
             daily_task = DailyTask(self.session, self.logger, self.config)
             complete, task_data = daily_task._get_daily_tasks()
             if not complete:
-                self._process_tasks(task_data)
+                daily_task._process_tasks(task_data)
             
             # 处理额外评分任务
             extra_task = ExtraTask(self.session, self.logger, self.config)
             extra_task.process_extra_tasks(task_data["id"])
+            
             return True
             
         except Exception as e:
