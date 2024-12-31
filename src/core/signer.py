@@ -94,22 +94,29 @@ class Signer:
                 "encSecKey": self._get_enc_sec_key()
             }
             
+            self.logger.debug(f"评分请求数据: {data}")
+            
             response = self.session.post(
                 url=f'{self.sign_url}?csrf_token={csrf}',
                 data=params
             ).json()
             
+            self.logger.debug(f"评分响应数据: {response}")
+            
             if response["code"] == 200:
                 self.logger.info(f'{work["name"]}「{work["authorName"]}」评分完成：{score}分')
             else:
-                error_msg = response.get('msg', '未知错误')
+                error_msg = response.get('message') or response.get('msg', '未知错误')
                 if "频繁" in error_msg:
                     retry_delay = self.config.get_wait_time()
                     self.logger.info(f"遇到频率限制，等待 {retry_delay:.1f} 秒后重试...")
                     time.sleep(retry_delay)
                     self.sign(work, is_extra)
+                elif response["code"] == 405 and "资源状态异常" in error_msg:
+                    self.logger.warning(f'歌曲「{work["name"]}」资源状态异常，跳过')
+                    return  # 跳过这首歌，继续处理下一首
                 else:
-                    raise RuntimeError(f"评分失败: {error_msg}")
+                    raise RuntimeError(f"评分失败: {error_msg} (响应码: {response.get('code')})")
                 
         except Exception as e:
             self.logger.error(f'歌曲「{work["name"]}」评分异常：{str(e)}')
