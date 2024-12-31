@@ -114,7 +114,7 @@ class Signer:
                     self.sign(work, is_extra)
                 elif response["code"] == 405 and "资源状态异常" in error_msg:
                     self.logger.warning(f'歌曲「{work["name"]}」资源状态异常，跳过')
-                    return  # 跳过这首歌，继续处理下一首
+                    raise RuntimeError(error_msg)
                 else:
                     raise RuntimeError(f"评分失败: {error_msg} (响应码: {response.get('code')})")
                 
