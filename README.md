@@ -1,14 +1,14 @@
 # ncmp
 
-ncmp(NetEase Cloud Music Partner 网易云音乐合伙人)
+ncmp(NetEase Cloud Music Partner/网易云音乐合伙人)
 
-一个基于 Python 的网易云音乐-音乐合伙人任务脚本，支持本地运行和 GitHub Actions 自动执行。
+基于 Python 的网易云音乐-音乐合伙人任务脚本，支持本地运行和 GitHub Actions 自动执行。
 
 ## 功能特点
 
 - 全自动完成音乐合伙人日常任务
-  - 完成每日基础任务
-  - 完成每日额外评分任务
+  - 完成每日5个基础任务
+  - 完成每日7个额外评分任务
 - 便捷的部署方式
   - 支持本地手动运行
   - 支持 GitHub Actions 自动执行
@@ -29,6 +29,7 @@ ncmp(NetEase Cloud Music Partner 网易云音乐合伙人)
 支持所有提供 SMTP 服务的邮箱，以下是常见邮箱的配置示例：
 
 1. Gmail (推荐)
+
    ```json
    {
      "notify_email": "your.email@gmail.com",
@@ -37,9 +38,11 @@ ncmp(NetEase Cloud Music Partner 网易云音乐合伙人)
      "smtp_port": 465
    }
    ```
+
    注意：Gmail 需要开启两步验证并使用应用专用密码
 
 2. QQ邮箱
+
    ```json
    {
      "notify_email": "your_qq@qq.com",
@@ -48,52 +51,58 @@ ncmp(NetEase Cloud Music Partner 网易云音乐合伙人)
      "smtp_port": 465
    }
    ```
-   注意：需要在QQ邮箱设置中开启SMTP服务并获取授权码
 
+   注意：需要在QQ邮箱设置中开启SMTP服务并获取授权码
 
 ## 使用方法
 
 ### 方式一：本地手动执行
 
 1. 克隆仓库到本地：
-```bash
-git clone https://github.com/ACAne0320/ncmp.git
-cd ncmp
-```
+
+   ```bash
+   git clone https://github.com/ACAne0320/ncmp.git
+   cd ncmp
+   ```
 
 2. 安装依赖：
-```bash
-pip install -r requirements.txt
-```
+
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 3. 复制并编辑配置文件：
-```bash
-cp config/setting.example.json config/setting.json
-```
+
+   ```bash
+   cp config/setting.example.json config/setting.json
+   ```
 
 4. 编辑 `config/setting.json`，填写以下配置：
-```json
-{
-  "Cookie_MUSIC_U": "YOUR_MUSIC_U_COOKIE",
-  "Cookie___csrf": "YOUR_CSRF_TOKEN",
-  "notify_email": "your.email@gmail.com",
-  "email_password": "YOUR_APP_SPECIFIC_PASSWORD",
-  "smtp_server": "smtp.gmail.com",
-  "smtp_port": 465,
-  "wait_time_min": 15,
-  "wait_time_max": 20
-}
-```
+
+   ```json
+   {
+     "Cookie_MUSIC_U": "YOUR_MUSIC_U_COOKIE",
+     "Cookie___csrf": "YOUR_CSRF_TOKEN",
+     "notify_email": "your.email@gmail.com",
+     "email_password": "YOUR_APP_SPECIFIC_PASSWORD",
+     "smtp_server": "smtp.gmail.com",
+     "smtp_port": 465,
+     "wait_time_min": 15,
+     "wait_time_max": 20
+   }
+   ```
 
 5. 运行测试脚本确认配置正确：
-```bash
-python tests/test_run.py
-```
+
+   ```bash
+   python tests/test_run.py
+   ```
 
 6. 运行主程序：
-```bash
-python main.py
-```
+
+   ```bash
+   python main.py
+   ```
 
 ### 方式二：GitHub Actions 自动执行
 
