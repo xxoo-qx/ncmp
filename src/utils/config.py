@@ -36,9 +36,12 @@ class Config:
             config["wait_time_min"] = float(wait_min)
         if wait_max := os.getenv("WAIT_TIME_MAX"):
             config["wait_time_max"] = float(wait_max)
+        if score := os.getenv("SCORE"):
+            config["score"] = int(score)
             
         config.setdefault("wait_time_min", 15)
         config.setdefault("wait_time_max", 20)
+        config.setdefault("score", 3)  # 默认使用3-4分策略
         
         return config
     
@@ -68,6 +71,7 @@ class Config:
         config.setdefault("wait_time_max", 20)
         config.setdefault("smtp_server", "smtp.gmail.com")
         config.setdefault("smtp_port", 465)
+        config.setdefault("score", 3)
 
     def get(self, key: str, default: Any = None) -> Any:
         """获取配置项"""

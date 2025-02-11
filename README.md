@@ -88,7 +88,8 @@ ncmp(NetEase Cloud Music Partner/网易云音乐合伙人)
      "smtp_server": "smtp.gmail.com",
      "smtp_port": 465,
      "wait_time_min": 15,
-     "wait_time_max": 20
+     "wait_time_max": 20,
+     "score": 3  // 评分策略：1=1-2分，2=2-3分，3=3-4分（默认），4=固定4分
    }
    ```
 
@@ -118,6 +119,7 @@ ncmp(NetEase Cloud Music Partner/网易云音乐合伙人)
    - `SMTP_PORT`：465（可选）
    - `WAIT_TIME_MIN`：最小等待时间（可选，默认15）
    - `WAIT_TIME_MAX`：最大等待时间（可选，默认20）
+   - `SCORE`：评分策略（可选，默认3）
 
 3. 启用 GitHub Actions：
    - 进入仓库的 Actions 页面
