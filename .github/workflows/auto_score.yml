@@ -32,4 +32,5 @@ jobs:
         SMTP_PORT: ${{ secrets.SMTP_PORT }}
         WAIT_TIME_MIN: ${{ secrets.WAIT_TIME_MIN }}
         WAIT_TIME_MAX: ${{ secrets.WAIT_TIME_MAX }}
+        SCORE: ${{ secrets.SCORE }}
       run: python main.py 
