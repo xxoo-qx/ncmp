@@ -17,6 +17,8 @@ ncmp(NetEase Cloud Music Partner/网易云音乐合伙人)
 
 ## 使用前准备
 
+如果你从来没有接触过GitHub Actions以及Cookies相关的网络知识，请戳[ncmp 使用指北](https://blog.nyaashino.com/post/ncmp_quickstart)。
+
 ### 获取网易云音乐 Cookie
 
 1. 登录[网易云音乐网页版](https://music.163.com/)
