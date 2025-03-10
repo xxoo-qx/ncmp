@@ -128,6 +128,27 @@ ncmp(NetEase Cloud Music Partner/网易云音乐合伙人)
    - 点击 "I understand my workflows, go ahead and enable them"
    - Actions 将会按照预设时间自动运行（默认北京时间1点）
 
+## GitHub Token权限设置
+
+为了让Cookie自动刷新功能正常工作，您需要创建一个具有特定权限的GitHub Personal Access Token (PAT)。具体步骤如下：
+
+1. 访问GitHub的[Personal Access Tokens设置页面](https://github.com/settings/tokens)
+2. 点击"Generate new token" (创建新token)
+3. 给Token起一个描述性的名称，如"NCMP Cookie Refresh"
+4. 在权限选择部分，**只需要**勾选以下权限：
+   - `Secrets`: Access: **Read and write**
+注意：不要勾选其他不必要的权限，遵循最小权限原则可以提高安全性。
+
+5. Token创建后，立即复制并保存到您仓库的Secrets中，命名为`GH_TOKEN`
+
+这个Token将被用于更新仓库中的GitHub Secrets，特别是Cookie相关的值。Token只需要有足够的权限来修改仓库的Secrets，而不需要其他额外的权限。
+
+## 安全提示
+
+- 定期轮换您的GitHub Token
+- 永远不要将Token硬编码到代码中或提交到仓库
+- 如果怀疑Token泄露，立即在GitHub中撤销它并创建新的Token
+
 ## 注意事项
 
 - 目前仅对 Gmail/QQ邮箱 进行了验证，其他邮箱可能需要自行测试
