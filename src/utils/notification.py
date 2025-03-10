@@ -1,7 +1,9 @@
 import smtplib
 from email.mime.text import MIMEText
 from typing import Optional
+
 from .logger import Logger
+
 
 class NotificationService:
     def __init__(self, config, logger: Logger):

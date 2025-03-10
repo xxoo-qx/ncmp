@@ -1,7 +1,8 @@
 import json
 import os
 import random
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
+
 
 class Config:
     def __init__(self):
