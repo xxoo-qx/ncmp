@@ -8,7 +8,7 @@ on:
       branch:
         description: '要运行的分支'
         required: true
-        default: 'feature'
+        default: 'feature/auto-login'  # 默认使用main分支
         type: choice
         options:
           - feature/auto-login
@@ -22,7 +22,7 @@ jobs:
     - name: Checkout specific branch
       uses: actions/checkout@v2
       with:
-        ref: ${{ github.event.inputs.branch || 'feature' }}
+        ref: ${{ github.event.inputs.branch || github.ref_name }}
     
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -45,5 +45,5 @@ jobs:
         SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
         SMTP_PORT: ${{ secrets.SMTP_PORT }}
       run: |
-        echo "运行在 ${{ github.event.inputs.branch || 'feature' }} 分支上"
+        echo "运行在 ${{ github.event.inputs.branch || github.ref_name }} 分支上"
         python refresh_cookie.py
