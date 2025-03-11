@@ -1,28 +1,17 @@
-name: Cookie Refresh
+name: Auto Score
 
 on:
   schedule:
     - cron: '0 0 * * 1'  # 每周一UTC时间0:00 (北京时间8:00)
-  workflow_dispatch:  # 允许手动触发
-    inputs:
-      branch:
-        description: '要运行的分支'
-        required: true
-        default: 'feature/auto-login'  # 默认使用main分支
-        type: choice
-        options:
-          - feature/auto-login
-          - main
+  workflow_dispatch:
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    
+  
     steps:
-    - name: Checkout specific branch
-      uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.inputs.branch || github.ref_name }}
+    - name: Checkout repository
+      uses: actions/checkout@v3
     
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -38,12 +27,11 @@ jobs:
       env:
         NETEASE_PHONE: ${{ secrets.NETEASE_PHONE }}
         NETEASE_PASSWORD: ${{ secrets.NETEASE_PASSWORD }}
+        NETEASE_MD5_PASSWORD: ${{ secrets.NETEASE_MD5_PASSWORD }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+        GH_REPO: ${{ github.repository }}
         NOTIFY_EMAIL: ${{ secrets.NOTIFY_EMAIL }}
         EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
         SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
         SMTP_PORT: ${{ secrets.SMTP_PORT }}
-      run: |
-        echo "运行在 ${{ github.event.inputs.branch || github.ref_name }} 分支上"
-        python refresh_cookie.py
+      run: python refresh_cookie.py

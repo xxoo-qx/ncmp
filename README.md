@@ -14,6 +14,8 @@ ncmp(NetEase Cloud Music Partner/网易云音乐合伙人)
   - 支持 GitHub Actions 自动执行
 - 完善的通知机制
   - Cookie 失效自动发送邮件提醒
+- 一次配置持续使用
+  - 支持自动登录账号并刷新Cookie，基于[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
 ## 使用前准备
 
@@ -128,21 +130,21 @@ ncmp(NetEase Cloud Music Partner/网易云音乐合伙人)
    - 点击 "I understand my workflows, go ahead and enable them"
    - Actions 将会按照预设时间自动运行（默认北京时间1点）
 
-## GitHub Token权限设置
+## Cookie自动刷新配置
 
 为了让Cookie自动刷新功能正常工作，您需要创建一个具有特定权限的GitHub Personal Access Token (PAT)。以下是详细步骤：
 
 ### 1. 创建GitHub Personal Access Token
 
-1. 登录您的GitHub账号
-2. 访问[Token设置页面](https://github.com/settings/tokens)
+1. 登录您的 GitHub 账号
+2. 访问 [Token设置页面](https://github.com/settings/tokens)
 3. 点击"Generate new token" > "Generate new token (classic)"
 4. 在"Note"字段给您的Token起一个描述性名称，如"NCMP Cookie Refresh"
-5. 设置token有效期(推荐设置为90天，到期前记得更新)
+5. 设置 Token 有效期
 
 ### 2. 选择正确的权限范围
 
-您只需要为Token配置最小必要的权限：
+您只需要为 Token 配置最小必要的权限：
 
 **如果是公开仓库**，选择以下权限：
 - `repo` > `public_repo` (仅访问公开仓库)
@@ -152,10 +154,9 @@ ncmp(NetEase Cloud Music Partner/网易云音乐合伙人)
 
 ### 3. 使用细分权限(Fine-grained tokens)
 
-如果使用Fine-grained tokens(更精细的权限控制)：
+如果使用 Fine-grained tokens (更精细的权限控制)：
 1. 选择只对您的ncmp仓库有效
-2. 在"codespace"下：
-   - "secrets" 设为 "Read and write"
+2. 将 "secrets" 设为 "Read and write"
 
 ### 4. 保存Token
 
@@ -167,21 +168,15 @@ ncmp(NetEase Cloud Music Partner/网易云音乐合伙人)
 
 在仓库的Secrets中添加以下内容：
 - `NETEASE_PHONE`: 您的网易云音乐账号手机号
-- `NETEASE_PASSWORD`: 网易云音乐账号密码
+- 网易云音乐账号密码（2选1，建议使用MD5加密密码）
+  - `NETEASE_PASSWORD`: 明文密码
+  - `NETEASE_MD5_PASSWORD`: MD5加密密码
 - `GH_TOKEN`: 刚才创建的GitHub Token
 
 ### 6. 启用自动刷新工作流
 
 - 确保仓库中`.github/workflows/refresh_cookie.yml`工作流已启用
 - 您可以在Actions页面手动运行"Cookie Refresh"工作流测试配置是否正确
-
-## 安全提示
-
-- GitHub Token具有访问您仓库的权限，请妥善保管
-- 建议设置Token有效期，不要使用永久Token
-- 定期轮换您的GitHub Token，特别是在90天到期之前
-- 永远不要将Token硬编码到代码中或提交到仓库
-- 如果怀疑Token泄露，立即在GitHub中撤销它并创建新的Token
 
 ## 注意事项
 
@@ -201,3 +196,4 @@ ncmp(NetEase Cloud Music Partner/网易云音乐合伙人)
 
 - [qinglong-sign](https://github.com/KotoriMinami/qinglong-sign)
 - [CloudMusicBot](https://github.com/C20C01/CloudMusicBot)
+- [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)

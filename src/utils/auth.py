@@ -9,13 +9,14 @@ class AuthService:
         self.logger = logger
         self.login_api = "https://ncma-web.vercel.app/login/cellphone"
         
-    def login(self, phone: str, password: str) -> Tuple[bool, Optional[Dict[str, str]]]:
+    def login(self, phone: str, password: str = None, md5_password: str = None) -> Tuple[bool, Optional[Dict[str, str]]]:
         """
         通过手机号和密码登录获取 Cookie
         
         Args:
             phone: 手机号
-            password: 密码
+            password: 明文密码（与md5_password二选一）
+            md5_password: MD5加密后的密码（与password二选一）
             
         Returns:
             (成功状态, Cookie字典)
@@ -23,10 +24,18 @@ class AuthService:
         try:
             self.logger.info(f"尝试登录账号: {phone[:3]}****{phone[-4:]}")
             
-            params = {
-                "phone": phone,
-                "password": password
-            }
+            # 构建参数，优先使用md5_password
+            params = {"phone": phone}
+            
+            if md5_password:
+                params["md5_password"] = md5_password
+                self.logger.debug("使用MD5加密密码登录")
+            elif password:
+                params["password"] = password
+                self.logger.debug("使用明文密码登录")
+            else:
+                self.logger.error("未提供密码，无法登录")
+                return False, None
             
             # 发送登录请求
             response = requests.get(self.login_api, params=params)

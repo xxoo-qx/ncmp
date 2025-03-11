@@ -15,8 +15,8 @@ class GitHubService:
         self.logger = logger
         self.api_base = "https://api.github.com"
         self.token = os.environ.get("GH_TOKEN")
-        self.repo_owner = os.environ.get("GITHUB_REPOSITORY_OWNER")
-        self.repo_name = os.environ.get("GITHUB_REPOSITORY", "").split("/")[-1]
+        self.repo_owner = os.environ.get("GH_REPO").split("/")[0]
+        self.repo_name = os.environ.get("GH_REPO", "").split("/")[-1]
         
         if not self.token:
             raise ValueError("GitHub Token未设置，无法更新Secrets")

@@ -22,18 +22,32 @@ class CookieRefreshTask:
             # 获取登录凭据
             phone = os.environ.get("NETEASE_PHONE")
             password = os.environ.get("NETEASE_PASSWORD")
+            md5_password = os.environ.get("NETEASE_MD5_PASSWORD")
             
-            if not phone or not password:
-                self.logger.error("未设置登录凭据，无法执行自动登录")
+            if not phone:
+                self.logger.error("未设置手机号，无法执行自动登录")
                 if self.notifier:
                     self.notifier.send_notification(
                         "网易云音乐合伙人 - 自动登录失败",
-                        "未设置登录凭据，请检查NETEASE_PHONE和NETEASE_PASSWORD环境变量"
+                        "未设置手机号，请检查NETEASE_PHONE环境变量"
                     )
                 return False
                 
-            # 执行登录
-            success, cookies = self.auth_service.login(phone, password)
+            if not md5_password and not password:
+                self.logger.error("未设置密码，无法执行自动登录")
+                if self.notifier:
+                    self.notifier.send_notification(
+                        "网易云音乐合伙人 - 自动登录失败",
+                        "未设置密码，请检查NETEASE_MD5_PASSWORD或NETEASE_PASSWORD环境变量"
+                    )
+                return False
+                
+            # 执行登录，优先使用MD5密码
+            success, cookies = self.auth_service.login(
+                phone=phone,
+                password=password if not md5_password else None,
+                md5_password=md5_password
+            )
             
             if not success or not cookies:
                 self.logger.error("登录失败，无法获取新的Cookie")
