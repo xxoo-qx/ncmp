@@ -1,8 +1,8 @@
-name: Auto Score
+name: Refresh Cookie
 
 on:
   schedule:
-    - cron: '0 0 * * 1'  # 每周一UTC时间0:00 (北京时间8:00)
+    - cron: '0 17 * * 1'  # 每周一UTC 17:00 (北京时间1:00)
   workflow_dispatch:
 
 jobs:
