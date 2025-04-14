@@ -1,4 +1,5 @@
 import smtplib
+import ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from typing import Optional
@@ -37,10 +38,22 @@ class NotificationService:
             body = MIMEText(content)
             msg.attach(body)
             
-            # 发送邮件
-            with smtplib.SMTP_SSL(smtp_server, smtp_port) as server:
-                server.login(notify_email, email_password)
-                server.send_message(msg)
+            # 尝试使用 SSL 连接发送邮件
+            try:
+                self.logger.debug(f"尝试使用 SSL 连接到 {smtp_server}:{smtp_port}")
+                context = ssl.create_default_context()
+                with smtplib.SMTP_SSL(smtp_server, smtp_port, context=context) as server:
+                    server.login(notify_email, email_password)
+                    server.send_message(msg)
+            except Exception as ssl_error:
+                self.logger.debug(f"SSL 连接失败，尝试使用 TLS: {str(ssl_error)}")
+                # 如果 SSL 失败，尝试使用显式 TLS
+                with smtplib.SMTP(smtp_server, 587) as server:
+                    server.ehlo()
+                    server.starttls()
+                    server.ehlo()
+                    server.login(notify_email, email_password)
+                    server.send_message(msg)
                 
             self.logger.info(f"通知邮件发送成功: {subject}")
             return True
