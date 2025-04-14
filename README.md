@@ -203,3 +203,11 @@ ncmp(NetEase Cloud Music Partner/网易云音乐合伙人)
 - [qinglong-sign](https://github.com/KotoriMinami/qinglong-sign)
 - [CloudMusicBot](https://github.com/C20C01/CloudMusicBot)
 - [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+
+## 反馈
+
+使用过程中如果有任何问题或者建议，欢迎在[Issues](https://github.com/ACAne0320/ncmp/issues)中提出，或者联系我
+
+- 邮箱：[nyaashino@gmail.com](mailto:nyaashino@gmail.com)
+
+如果觉得这个项目对你有帮助，欢迎给个 Star 支持一下~
