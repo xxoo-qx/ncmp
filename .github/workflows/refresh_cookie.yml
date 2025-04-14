@@ -25,6 +25,8 @@ jobs:
     
     - name: Run refresh script
       env:
+        MUSIC_U: ${{ secrets.MUSIC_U }}
+        CSRF: ${{ secrets.CSRF }}
         NETEASE_PHONE: ${{ secrets.NETEASE_PHONE }}
         NETEASE_PASSWORD: ${{ secrets.NETEASE_PASSWORD }}
         NETEASE_MD5_PASSWORD: ${{ secrets.NETEASE_MD5_PASSWORD }}
