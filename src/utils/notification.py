@@ -36,9 +36,6 @@ class NotificationService:
         
         body = MIMEText(content)
         msg.attach(body)
-        
-        # 跟踪邮件是否实际上已发送
-        sent_successfully = False
             
         # 尝试使用 SSL 连接发送邮件
         try:
@@ -47,7 +44,8 @@ class NotificationService:
             with smtplib.SMTP_SSL(smtp_server, smtp_port, context=context) as server:
                 server.login(notify_email, email_password)
                 server.send_message(msg)
-                sent_successfully = True
+                self.logger.info(f"通知邮件发送成功: {subject}")
+                return True
         except Exception as ssl_error:
             self.logger.debug(f"SSL 连接失败，尝试使用 TLS: {str(ssl_error)}")
             try:
@@ -58,13 +56,8 @@ class NotificationService:
                     server.ehlo()
                     server.login(notify_email, email_password)
                     server.send_message(msg)
-                    sent_successfully = True
+                    self.logger.info(f"通知邮件发送成功: {subject}")
+                    return True
             except Exception as tls_error:
-                self.logger.error(f"TLS 连接也失败了: {str(tls_error)}")
-            
-        if sent_successfully:
-            self.logger.info(f"通知邮件发送成功: {subject}")
-            return True
-        else:
-            self.logger.error("所有邮件发送尝试均失败")
-            return False
+                self.logger.error(f"尝试使用 TLS 连接失败： {str(tls_error)}")
+                return False
